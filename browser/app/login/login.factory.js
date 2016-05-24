@@ -1,7 +1,15 @@
 'use strict'
 
 app.factory('LoginFactory', function($http, $state) {
-	var kennyPowers = null;
+	var kennyPowers;
+	$http.get('/login/me')
+	.then(function(me){
+		 kennyPowers = me.data || null;
+	})
+	.catch(function(other){
+		kennyPowers = null;
+	})
+
 	return {
 		kennyLoggins: function(email, password) {
 			$http.post('/login', {

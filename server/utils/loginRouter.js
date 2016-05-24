@@ -46,7 +46,23 @@ router.post('/', function(req, res){
 })
 
 router.get('/me', function(req, res){
-	
+	//req.session.reload(
+		//console.error(err);
+	User.findById(req.session.userId)
+	.then(function(user){
+		if(validUser) {
+			// console.log(validUser.data);
+			req.session.userId = validUser.id;
+			res.status(201).send(validUser);
+		} else {
+			res.sendStatus(401);
+		}
+	}).catch(function(invalid){
+		console.error(invalid);
+	})
+		//res.send("you did it!");
+	//});
+
 })
 
 module.exports = router;
